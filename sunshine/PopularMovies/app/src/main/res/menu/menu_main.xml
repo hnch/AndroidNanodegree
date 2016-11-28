@@ -1,0 +1,15 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="hina.popularmovies.MainActivity">
+    <item
+        android:id="@+id/action_popular"
+        android:title="@string/action_popular"
+        app:showAsAction="never"
+        android:visible="true" />
+    <item
+        android:id="@+id/action_rating"
+        android:title="@string/action_rating"
+        app:showAsAction="never"
+        android:visible="true"/>
+</menu>
