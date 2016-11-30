@@ -161,7 +161,6 @@ public class MainActivityFragment extends Fragment {
 
             String movieOperation = DISCOVER_MOVIE_POPULAR;
             Map<String, String> queryParams = new HashMap<>();
-            queryParams.put(PARAM_SORT_KEY, params[0]);
             if(params[0].equals(TOP_RATED)) {
                 movieOperation = TOP_RATED_MOVIE;
             }
