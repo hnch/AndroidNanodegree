@@ -44,7 +44,8 @@ public class MainActivityFragment extends Fragment {
     public static final String POSTER_PATH = "poster_path";
     private ArrayAdapter<MovieTile> mMoviesAdapter;
     private String sortKey = MOST_POPULAR;
-    private static final String DISCOVER_MOVIE = "discover/movie";
+    private static final String DISCOVER_MOVIE_POPULAR = "movie/popular";
+    private static final String TOP_RATED_MOVIE = "movie/top_rated";
     private static final String PARAM_SORT_KEY = "sort_by";
 
     public MainActivityFragment() {
@@ -158,9 +159,13 @@ public class MainActivityFragment extends Fragment {
                 return null;
             }
 
+            String movieOperation = DISCOVER_MOVIE_POPULAR;
             Map<String, String> queryParams = new HashMap<>();
             queryParams.put(PARAM_SORT_KEY, params[0]);
-            StringBuffer buffer = NetworkUtility.getDataFromMovieDb(DISCOVER_MOVIE, queryParams);
+            if(params[0].equals(TOP_RATED)) {
+                movieOperation = TOP_RATED_MOVIE;
+            }
+            StringBuffer buffer = NetworkUtility.getDataFromMovieDb(movieOperation, queryParams);
             try {
                 String moviesJsonStr = buffer.toString();
                 return getMovieDataFromJson(moviesJsonStr);

@@ -1,74 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_detail"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="hina.popularmovies.DetailActivity">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:background="@color/movieTitle"
-        android:layout_height="150dp"
-        android:id="@+id/detail_title_container">
-        <TextView android:id="@+id/detail_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="gravity"
-            android:textSize="16pt"
-            android:textColor="@android:color/white"
-            android:layout_centerInParent="true"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"/>
-    </RelativeLayout>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
 
-    <RelativeLayout
+    <RelativeLayout xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/activity_detail"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_marginTop="10dp"
-        android:layout_below="@+id/detail_title_container"
-        android:id="@+id/detail_container">
-        <ImageView
-            android:layout_width="140dp"
-            android:layout_height="500dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginBottom="20dp"
-            android:layout_marginRight="30dp"
-            android:scaleType="centerCrop"
-            android:id="@+id/detail_thumbnail"/>
+        android:layout_height="match_parent"
+        tools:context="hina.popularmovies.DetailActivity">
+
+
         <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:layout_toRightOf="@+id/detail_thumbnail"
-            android:id="@+id/detail_desc_container">
-            <TextView android:id="@+id/detail_release"
-                android:layout_width="wrap_content"
+            android:id="@+id/detail_title_container"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:background="@color/movieTitle">
+
+            <TextView
+                android:id="@+id/detail_title"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:textSize="10pt"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="20dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginBottom="20dp"
-                android:textColor="@color/movieTitle"/>
-            <TextView android:id="@+id/detail_rating"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:layout_below="@+id/detail_release"/>
+                android:textAlignment="gravity"
+                android:textColor="@android:color/white"
+                android:textSize="16pt" />
         </RelativeLayout>
-    </RelativeLayout>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/detail_container">
-        <TextView android:id="@+id/detail_synopsis"
+
+        <RelativeLayout
+            android:id="@+id/detail_container"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_below="@+id/detail_title_container"
+            android:layout_marginTop="10dp">
+
+            <ImageView
+                android:id="@+id/detail_thumbnail"
+                android:layout_width="140dp"
+                android:layout_height="500dp"
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="10dp"
+                android:scaleType="centerCrop" />
+
+            <RelativeLayout
+                android:id="@+id/detail_desc_container"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_toRightOf="@+id/detail_thumbnail">
+
+                <TextView
+                    android:id="@+id/detail_release"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/movieTitle"
+                    android:textSize="10pt" />
+
+                <TextView
+                    android:id="@+id/detail_rating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/detail_release"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="6pt"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"/>
+            android:layout_below="@+id/detail_container">
+
+            <TextView
+                android:id="@+id/detail_synopsis"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:textSize="6pt" />
+
+
+        </RelativeLayout>
+
+
     </RelativeLayout>
-
-
-</RelativeLayout>
+</ScrollView>
