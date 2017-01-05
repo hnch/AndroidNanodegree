@@ -2,6 +2,8 @@ package hina.popularmovies;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -27,9 +29,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import hina.db.FavoriteMovieHelper;
 import hina.tile.MovieTile;
 import hina.tile.MovieTileAdapter;
 import hina.util.NetworkUtility;
+
+import static hina.db.FavoriteMovieContract.FavoriteMovieEntry.TABLE_NAME;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -37,6 +42,7 @@ import hina.util.NetworkUtility;
 public class MainActivityFragment extends Fragment {
 
     private static final String TOP_RATED = "vote_average.desc";
+    private static final String FAVORITE = "favorite";
     private static final String MOST_POPULAR = "popularity.desc";
     private static final String SORT_KEY = "SORT_KEY";
     public static final String RESULTS = "results";
@@ -46,7 +52,9 @@ public class MainActivityFragment extends Fragment {
     private String sortKey = MOST_POPULAR;
     private static final String DISCOVER_MOVIE_POPULAR = "movie/popular";
     private static final String TOP_RATED_MOVIE = "movie/top_rated";
-    private static final String PARAM_SORT_KEY = "sort_by";
+    public static final String MOVIE_ID = "id";
+    public static final String MOVIE_IMAGE = "image";
+    private FavoriteMovieHelper mFavoriteHelper;
 
     public MainActivityFragment() {
     }
@@ -60,6 +68,7 @@ public class MainActivityFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         // Inflate the menu; this adds items to the action bar if it is present.
         inflater.inflate(R.menu.menu_main, menu);
+        mFavoriteHelper = new FavoriteMovieHelper(getActivity());
     }
 
     @Override
@@ -74,6 +83,9 @@ public class MainActivityFragment extends Fragment {
             case R.id.action_rating:
                 fetchMoviesTask.execute(TOP_RATED);
                 sortKey = TOP_RATED;
+                break;
+            case R.id.action_favorite:
+                fetchMoviesTask.execute(FAVORITE);
                 break;
             default:
                 fetchMoviesTask.execute(MOST_POPULAR);
@@ -117,7 +129,7 @@ public class MainActivityFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 MovieTile movieTile = mMoviesAdapter.getItem(i);
-                Intent intent = new Intent(getActivity(), DetailActivity.class).putExtra(Intent.EXTRA_TEXT, movieTile.getMovieId());
+                Intent intent = new Intent(getActivity(), DetailActivity.class).putExtra(MOVIE_ID, movieTile.getMovieId()).putExtra(MOVIE_IMAGE,movieTile.getMovieImageURL());
                 startActivity(intent);
             }
         });
@@ -163,6 +175,34 @@ public class MainActivityFragment extends Fragment {
             Map<String, String> queryParams = new HashMap<>();
             if(params[0].equals(TOP_RATED)) {
                 movieOperation = TOP_RATED_MOVIE;
+            }
+            else if(params[0].equals(FAVORITE)) {
+                SQLiteDatabase db = mFavoriteHelper.getReadableDatabase();
+                Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
+                Log.e("db", cursor.toString());
+
+                JSONArray resultArray = new JSONArray();
+                JSONObject resultObject = new JSONObject();
+                if (cursor != null && cursor.getCount() > 0) {
+                    while (cursor.moveToNext()) {
+                        try {
+                            JSONObject object = new JSONObject();
+                            object.put("id", cursor.getString(0));
+                            object.put("poster_path", cursor.getString(1));
+                            resultArray.put(object);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+                try {
+                    resultObject.put("results", resultArray);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                db.close();
+                return getMovieDataFromJson(resultObject.toString());
             }
             StringBuffer buffer = NetworkUtility.getDataFromMovieDb(movieOperation, queryParams);
             try {

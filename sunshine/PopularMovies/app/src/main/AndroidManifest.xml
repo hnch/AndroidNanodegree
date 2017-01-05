@@ -20,5 +20,8 @@
         <activity android:name=".DetailActivity"
             android:parentActivityName=".MainActivity"
             android:label="@string/movie_details"/>
+        <activity android:name=".ReviewActivity"
+            android:parentActivityName=".DetailActivity"
+            android:label="@string/reviews"/>
     </application>
 </manifest>
